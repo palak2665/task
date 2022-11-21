@@ -157,10 +157,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Text(availableSlots
-                                                    .values
-                                                    .elementAt(index1!)[index]
-                                                    .toString()),
+                                                child: Text(
+                                                    '${availableSlots.values.elementAt(index1!)[index].toString()} PM'),
                                               )),
                                         );
                                       }))
@@ -192,25 +190,23 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
     dates = dates.toSet().toList();
-    dates.forEach(
-      (element) {
-        for (dynamic list in timeSlot.data!) {
-          for (dynamic date in list.timeslots) {
-            if (element == date.date.toString().substring(0, 10)) {
-              map.update(
-                element,
-                (list) => list..add(date.timeFrom),
-                ifAbsent: () => [date.timeFrom],
-              );
-            }
+    for (var element in dates) {
+      for (dynamic list in timeSlot.data!) {
+        for (dynamic date in list.timeslots) {
+          if (element == date.date.toString().substring(0, 10)) {
+            map.update(
+              element,
+              (list) => list..add(date.timeFrom.toString().substring(0, 5)),
+              ifAbsent: () => [date.timeFrom.toString().substring(0, 5)],
+            );
           }
         }
-      },
-    );
+      }
+    }
 
-    // map.forEach((key, value) {
-    //   log(name: 'available slots', "$key:$value");
-    // });
+    map.forEach((key, value) {
+      log(name: 'available slots', "$key:$value");
+    });
     return map;
   }
 }
